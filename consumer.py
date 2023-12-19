@@ -7,14 +7,14 @@ def main():
     # Making sure that the queue exists
     # idempotent command: we can run as many times as we want,
     # only one 'hello' channel will be created
-    channel.queue_declare('hello')
+    channel.queue_declare('task_hello', durable=True)
 
 
     def callback(ch, method, properties, body):
         print(f'[x] receveid {body}')
         ch.basic_ack(delivery_tag = method.delivery_tag)
 
-    channel.basic_consume(queue='hello', on_message_callback=callback)
+    channel.basic_consume(queue='task_hello', on_message_callback=callback)
 
 
     print(' [*] Waiting for messages. To exit press CTRL+C')
