@@ -9,13 +9,12 @@ def main():
     # only one 'hello' channel will be created
     channel.queue_declare('task_hello', durable=True)
 
-
     def callback(ch, method, properties, body):
         print(f'[x] receveid {body}')
         ch.basic_ack(delivery_tag = method.delivery_tag)
 
+    channel.basic_qos(prefetch_count=1)
     channel.basic_consume(queue='task_hello', on_message_callback=callback)
-
 
     print(' [*] Waiting for messages. To exit press CTRL+C')
     channel.start_consuming()
