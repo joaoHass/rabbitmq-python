@@ -1,6 +1,6 @@
 import pika, sys
 
-connection = pika.BlockingConnection(pika.BaseConnection('localhost'))
+connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
 channel = connection.channel()
 
 # We want to send the message to as many queues possible,
